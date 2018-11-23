@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  mysql:
+    image: mariadb:latest
+    restart: on-failure:3
+    container_name: Robot   
+    ports:
+    - 4306:3306
+    environment:
+      MYSQL_DATABASE: "robot"
+      MYSQL_USER: "robot"
+      MYSQL_PASSWORD: "123456"
+      MYSQL_ROOT_PASSWORD: "123456"
+    volumes:
+    - robot:/var/lib/mysql
+
+volumes:
+  robot:

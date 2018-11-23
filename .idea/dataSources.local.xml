@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="dataSourceStorageLocal">
+    <data-source name="robot@localhost" uuid="84ec6cc0-0d03-4cad-8042-ad693235790e">
+      <database-info product="MySQL" version="10.3.11-MariaDB-1:10.3.11+maria~bionic" jdbc-version="4.2" driver-name="MariaDB connector/J" driver-version="2.2.1" family="MARIADB" exact-version="10.3.11">
+        <extra-name-characters>#@</extra-name-characters>
+        <identifier-quote-string>`</identifier-quote-string>
+      </database-info>
+      <case-sensitivity plain-identifiers="exact" quoted-identifiers="exact" />
+      <secret-storage>master_key</secret-storage>
+      <user-name>robot</user-name>
+      <introspection-schemas>*:@</introspection-schemas>
+    </data-source>
+    <data-source name="@chatbot-ip.cxcgjwehdjin.us-east-1.rds.amazonaws.com" uuid="89921298-73c4-4377-a041-9f93c602e9df">
+      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" family="MYSQL" exact-version="0.0" />
+      <secret-storage>master_key</secret-storage>
+      <first-sync>true</first-sync>
+      <user-name>lex_root</user-name>
+    </data-source>
+  </component>
+</project>

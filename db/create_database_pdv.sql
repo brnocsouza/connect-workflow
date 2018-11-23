@@ -1,0 +1,11 @@
+CREATE TABLE pdv
+(
+  id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  name VARCHAR(255) NOT NULL,
+  fone VARCHAR(30) NOT NULL,
+  contact_id VARCHAR(50),
+  status BIT DEFAULT 0 NOT NULL,
+  answers BIT DEFAULT 0,
+  retries INT DEFAULT 0 NOT NULL,
+  retry_when DATETIME
+);

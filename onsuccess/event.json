@@ -1,0 +1,42 @@
+{
+  "Details": {
+    "ContactData": {
+      "Attributes": {
+        "BotName": "Ricardo",
+        "Lex": "Positivo",
+        "PDV": "PDV do Bruno",
+        "UserAttr": ".1",
+        "id": "1"
+      },
+      "Channel": "VOICE",
+      "ContactId": "5bc64829-0719-4ce4-bbd5-469456768734",
+      "CustomerEndpoint": {
+        "Address": "+5551984473878",
+        "Type": "TELEPHONE_NUMBER"
+      },
+      "InitialContactId": "5bc64829-0719-4ce4-bbd5-469456768734",
+      "InitiationMethod": "API",
+      "InstanceARN": "arn:aws:connect:us-east-1:604740242811:instance/2fab8ba3-2b08-4eb8-b1ce-12da2e9c014d",
+      "MediaStreams": {
+        "Customer": {
+          "Audio": null
+        }
+      },
+      "PreviousContactId": "5bc64829-0719-4ce4-bbd5-469456768734",
+      "Queue": {
+        "ARN": "arn:aws:connect:us-east-1:604740242811:instance/2fab8ba3-2b08-4eb8-b1ce-12da2e9c014d/queue/9d9b5e42-706e-414b-a928-cd9b0e9e3d99",
+        "Name": "IPQueue",
+        "OutboundCallerId": {
+          "Address": "+18448084479",
+          "Type": "TELEPHONE_NUMBER"
+        }
+      },
+      "SystemEndpoint": {
+        "Address": "+18448084479",
+        "Type": "TELEPHONE_NUMBER"
+      }
+    },
+    "Parameters": {}
+  },
+  "Name": "ContactFlowEvent"
+}

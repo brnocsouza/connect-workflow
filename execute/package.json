@@ -1,0 +1,14 @@
+{
+  "name": "robot-execute",
+  "author": "Bruno Souza <bruno.souza@ecs.com.br>",
+  "description": "Lambda start outbound call",
+  "version": "1.0.0",
+  "devDependencies": {
+    "serverless": "^1.33.2",
+    "serverless-python-requirements": "^4.2.5"
+  },
+  "scripts": {
+    "build": "npx serverless package --package ../deploy/robot-execute",
+    "deploy": "npx sls deploy"
+  }
+}

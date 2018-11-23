@@ -1,0 +1,14 @@
+{
+  "name": "robot-on-error",
+  "author": "Bruno Souza <bruno.souza@ecs.com.br>",
+  "description": "Lambda save status on DB and schedule new call when error",
+  "version": "1.0.0",
+  "devDependencies": {
+    "serverless": "^1.33.2",
+    "serverless-python-requirements": "^4.2.5"
+  },
+  "scripts": {
+    "build": "npx serverless package --package ../deploy/on-error",
+    "deploy": "npx sls deploy"
+  }
+}

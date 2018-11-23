@@ -1,0 +1,14 @@
+{
+  "name": "robot-orchestrator",
+  "author": "Bruno Souza <bruno.souza@ecs.com.br>",
+  "description": "Lambda which orchestrate awa connect start outbound call",
+  "version": "1.0.0",
+  "devDependencies": {
+    "serverless": "^1.33.2",
+    "serverless-python-requirements": "^4.2.5"
+  },
+  "scripts": {
+    "build": "npx serverless package --package ../deploy/orchestrator",
+    "deploy": "npx sls deploy"
+  }
+}

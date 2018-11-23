@@ -1,0 +1,34 @@
+service: robot
+
+provider:
+  name: aws
+  runtime: python3.6
+  region: us-east-2
+  stage: prod
+  profile: interplayers
+
+functions:
+  robot:
+    handler: handler.on_error
+
+environment:
+  SourcePhoneNumber: "+18448084479"
+  ContactFlowId: "447092bd-a341-4c23-aafd-f835b0abfdf0"
+  InstanceId: "2fab8ba3-2b08-4eb8-b1ce-12da2e9c014d"
+  BotName: "Ricardo"
+  host: "localhost"
+  user: "robot"
+  password: "123456"
+  db: "robot"
+  port: "3306"
+
+plugins:
+  - serverless-python-requirements
+custom:
+  pythonRequirements:
+    useDownloadCache: true
+    useStaticCache: true
+    zip: true
+    dockerizePip: true
+    usePipenv: true
+    slim: true

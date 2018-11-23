@@ -1,0 +1,3 @@
+INSERT INTO robot.pdv (id, name, fone, status, answers, retry_when, retries) VALUES (1, 'PDV do Bruno', '+5551984473878', false, false, null, 0);
+INSERT INTO robot.pdv (id, name, fone, status, answers, retry_when, retries) VALUES (2, 'PDV do Bruno 2', '+5551984473878', false, false, '2018-11-20 17:43:04', 1);
+INSERT INTO robot.pdv (id, name, fone, status, answers, retry_when, retries) VALUES (3, 'PDV do Bruno 2', '+5551984473878', false, false, '2018-11-20 16:50:04', 2);
