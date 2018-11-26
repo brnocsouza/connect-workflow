@@ -104,7 +104,6 @@ class Data(BaseImport):
     async def save(self):
         query, replace = self._save(self.id)
 
-        loop = asyncio.get_event_loop()
         await shared.execute(query, replace)
 
     async def find(self):
