@@ -1,15 +1,21 @@
 import asyncio
+import json
 import os
 
-from shared import get_environment, start_outbound_voice_contact, Data, get_all_data_in, call_lambda
+from shared import get_environment, Data, call_lambda, start_outbound_voice_contact
 
 
 def robot(event, ctx):
     loop = asyncio.get_event_loop()
     environment = get_environment()
 
-    call_lambda()
-    all_stores = loop.run_until_complete(get_all_data_in(event['list_ids']))
+    lambda_response = [
+        call_lambda('ip-execute_sql', json.dumps({"get_by_id": item, "save_list": None}), 'RequestResponse')
+        for item in event['list_ids']
+    ]
+
+    all_stores = loop.run_until_complete(asyncio.gather(*lambda_response))
+    all_stores = loop.run_until_complete(parse_response(all_stores))
 
     all_stores = [Data(item, 'pdv') for item in all_stores]
 
@@ -18,8 +24,15 @@ def robot(event, ctx):
     if len(all_stores) > 0:
         tasks = [start_outbound_voice_contact(item, environment) for item in all_stores]
         tasks_resolved = loop.run_until_complete(asyncio.gather(*tasks))
-        tasks_to_save = [item.save() for item in tasks_resolved if item is not None]
-        loop.run_until_complete(asyncio.gather(*tasks_to_save))
+        tasks_to_save = [item.to_dict() for item in tasks_resolved if item is not None]
+
+        request = json.dumps({"get_by_id": None, "save_list": tasks_to_save})
+        loop.run_until_complete(call_lambda('ip-execute_sql', request))
+
+
+async def parse_response(tasks):
+    responses = [json.loads(await item.get('Payload').read()) for item in tasks]
+    return responses
 
 
 if __name__ == '__main__':
@@ -35,6 +48,6 @@ if __name__ == '__main__':
     os.environ['port'] = "3306"
 
     robot({
-        "list_ids": [1]
-        # "list_ids": [1, 2, 3]
+        # "list_ids": [1]
+        "list_ids": [1, 2, 3]
     }, {})

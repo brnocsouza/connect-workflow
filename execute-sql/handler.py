@@ -1,7 +1,8 @@
 import asyncio
+import json
 import os
 
-from shared import Data, get_all_data_in
+from shared import Data, get_data
 
 
 def execute_sql(event, ctx):
@@ -10,13 +11,13 @@ def execute_sql(event, ctx):
     all_stores = []
 
     if event['get_by_id'] is not None:
-        all_stores = loop.run_until_complete(get_all_data_in([event['get_by_id']]))
+        all_stores = loop.run_until_complete(get_data(event['get_by_id']))
     elif event['save_list'] is not None:
         all_stores = [Data(item, 'pdv') for item in event['save_list']]
         tasks_to_save = [item.save() for item in all_stores if item is not None]
         loop.run_until_complete(asyncio.gather(*tasks_to_save))
 
-    return all_stores
+    return json.loads(json.dumps(all_stores, default=str))
 
 
 if __name__ == '__main__':

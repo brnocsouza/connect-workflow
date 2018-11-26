@@ -1,4 +1,3 @@
-import asyncio
 import datetime
 import json
 from typing import Union
@@ -123,6 +122,9 @@ class Data(BaseImport):
 
     def __str__(self):
         return json.dumps({key: getattr(self, key) for key in self.__slots__}, default=str)
+
+    def to_dict(self):
+        return {key: getattr(self, key) for key in self.__slots__}
 
 
 class Dynamo:

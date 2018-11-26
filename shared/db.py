@@ -37,6 +37,13 @@ def chunks(l, n):
         yield l[i:i + n]
 
 
+def parse_data(item):
+    item['status'] = ord(item['status'])
+    item['answers'] = ord(item['answers'])
+
+    return item
+
+
 async def get_all_to_retry():
     con = await connect()
     cursor = await con.cursor()
@@ -63,7 +70,7 @@ async def get_data(id_record: int):
              WHERE `id` = %s"""
 
     await cursor.execute(sql, (id_record,))
-    return await cursor.fetchone()
+    return parse_data(await cursor.fetchone())
 
 
 async def get_all_data_in(ids_record: List[int]):
@@ -80,6 +87,10 @@ async def get_all_data_in(ids_record: List[int]):
 
         await cursor.execute(local_sql, tuple(item))
         list_data += await cursor.fetchall()
+
+    for item in list_data:
+        item['status'] = ord(item['status'])
+        item['answers'] = ord(item['answers'])
 
     return list_data
 
@@ -98,19 +109,33 @@ async def find_all(sql, data):
         con = await connect()
         cursor = await con.cursor()
         await cursor.execute(sql, tuple(data))
-        return await cursor.fetchall()
+        list_data = await cursor.fetchall()
+
+        for item in list_data:
+            item['status'] = ord(item['status'])
+            item['answers'] = ord(item['answers'])
+
+        return list_data
     except Exception as ex:
         print(ex)
+        return None
 
 
-async def find_many(sql, data) -> typing.Iterable:
+async def find_many(sql, data) -> typing.Union[typing.Iterable, None]:
     try:
         con = await connect()
         cursor = await con.cursor()
         await cursor.execute(sql, tuple(data))
-        return await cursor.fetchmany()
+        list_data = await cursor.fetchmany()
+
+        for item in list_data:
+            item['status'] = ord(item['status'])
+            item['answers'] = ord(item['answers'])
+
+        return list_data
     except Exception as ex:
         print(ex)
+        return None
 
 
 async def find(sql, data):
@@ -118,6 +143,11 @@ async def find(sql, data):
         con = await connect()
         cursor = await con.cursor()
         await cursor.execute(sql, tuple(data))
-        return await cursor.fetchone()
+        item = await cursor.fetchone()
+        item['status'] = ord(item['status'])
+        item['answers'] = ord(item['answers'])
+
+        return item
     except Exception as ex:
         print(ex)
+        return None

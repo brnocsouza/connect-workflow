@@ -73,17 +73,14 @@ async def start_outbound_voice_contact(
         return None
 
 
-async def call_lambda(function_name: str, payload: str):
+async def call_lambda(function_name: str, payload: str, invocationType: str = 'Event'):
     try:
-        print(function_name)
-        print(payload)
-
         async with get_session().client('lambda') as client:
             print(client)
 
             response = await client.invoke(
                 FunctionName=function_name,
-                InvocationType='Event',
+                InvocationType=invocationType,
                 Payload=payload
             )
 
