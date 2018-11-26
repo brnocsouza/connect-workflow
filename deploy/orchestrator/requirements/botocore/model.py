@@ -13,7 +13,7 @@
 """Abstractions to interact with service models."""
 from collections import defaultdict
 
-from botocore.utils import CachedProperty, instance_cache
+from botocore.utils import CachedProperty, instance_cache, hyphenize_service_id
 from botocore.compat import OrderedDict
 
 
@@ -40,6 +40,11 @@ class UndefinedModelAttributeError(Exception):
     pass
 
 
+class ServiceId(str):
+    def hyphenize(self):
+        return hyphenize_service_id(self)
+
+
 class Shape(object):
     """Object representing a shape from the service model."""
     # To simplify serialization logic, all shape params that are
@@ -50,7 +55,7 @@ class Shape(object):
                         'payload', 'streaming', 'timestampFormat',
                         'xmlNamespace', 'resultWrapper', 'xmlAttribute',
                         'eventstream', 'event', 'eventheader', 'eventpayload',
-                        'jsonvalue']
+                        'jsonvalue', 'timestampFormat']
     METADATA_ATTRS = ['required', 'min', 'max', 'sensitive', 'enum',
                       'idempotencyToken', 'error', 'exception']
     MAP_TYPE = OrderedDict
@@ -106,6 +111,7 @@ class Shape(object):
             * resultWrapper
             * xmlAttribute
             * jsonvalue
+            * timestampFormat
 
         :rtype: dict
         :return: Serialization information about the shape.
@@ -285,7 +291,7 @@ class ServiceModel(object):
 
     @CachedProperty
     def service_id(self):
-        return self._get_metadata_property('serviceId')
+        return ServiceId(self._get_metadata_property('serviceId'))
 
     @CachedProperty
     def signing_name(self):
@@ -316,7 +322,7 @@ class ServiceModel(object):
             return self.metadata[name]
         except KeyError:
             raise UndefinedModelAttributeError(
-                '"%s" not defined in the metadata of the the model: %s' %
+                '"%s" not defined in the metadata of the model: %s' %
                 (name, self))
 
     # Signature version is one of the rare properties
@@ -332,6 +338,10 @@ class ServiceModel(object):
     @signature_version.setter
     def signature_version(self, value):
         self._signature_version = value
+
+    def __repr__(self):
+        return '%s(%s)' % (self.__class__.__name__, self.service_name)
+
 
 
 class OperationModel(object):

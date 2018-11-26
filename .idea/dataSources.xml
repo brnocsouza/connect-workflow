@@ -15,11 +15,11 @@
         <property name="yearIsDateType" value="false" />
       </driver-properties>
     </data-source>
-    <data-source source="LOCAL" name="@chatbot-ip.cxcgjwehdjin.us-east-1.rds.amazonaws.com" uuid="89921298-73c4-4377-a041-9f93c602e9df">
+    <data-source source="LOCAL" name="chatbot@chatbot-ip.cxcgjwehdjin.us-east-1.rds.amazonaws.com" uuid="89921298-73c4-4377-a041-9f93c602e9df">
       <driver-ref>mysql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://chatbot-ip.cxcgjwehdjin.us-east-1.rds.amazonaws.com:3306</jdbc-url>
+      <jdbc-url>jdbc:mysql://chatbot-ip.cxcgjwehdjin.us-east-1.rds.amazonaws.com:3306/chatbot</jdbc-url>
       <driver-properties>
         <property name="autoReconnect" value="true" />
         <property name="zeroDateTimeBehavior" value="convertToNull" />

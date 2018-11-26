@@ -4,7 +4,6 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-"aioboto3" = "==5.0.0"
 aiomysql = "*"
 
 [dev-packages]

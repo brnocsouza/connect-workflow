@@ -5,7 +5,7 @@ name = "pypi"
 
 [packages]
 aiomysql = "*"
-"aioboto3" = "==5.0.0"
+"aioboto3" = "*"
 
 [dev-packages]
 

@@ -781,7 +781,7 @@ static const char *__pyx_filename;
 
 
 static const char *__pyx_f[] = {
-  "yarl/_quoting.pyx",
+  "yarl\\_quoting.pyx",
   "stringsource",
   "type.pxd",
 };

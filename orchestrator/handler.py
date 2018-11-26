@@ -12,13 +12,17 @@ from shared import call_lambda, get_all_to_retry
 
 def orchestrator(event, ctx):
     loop = asyncio.get_event_loop()
-    result = loop.run_until_complete(get_all_to_retry(loop))
+    result = loop.run_until_complete(get_all_to_retry())
+
+    print(result)
 
     invoke = []
     for list_ids in result:
-        invoke.append(call_lambda('lambda', json.dumps({
-            "list_ids": list_ids
-        })))
+        invoke.append(
+            call_lambda('lambda', json.dumps({
+                "list_ids": list_ids
+            }))
+        )
 
     loop = asyncio.get_event_loop()
     loop.run_until_complete(asyncio.gather(*invoke))

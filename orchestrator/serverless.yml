@@ -26,9 +26,9 @@ plugins:
 - serverless-python-requirements
 custom:
   pythonRequirements:
-    useDownloadCache: true
-    useStaticCache: true
+    useDownloadCache: false
+    useStaticCache: false
     zip: true
-    dockerizePip: true
+    dockerizePip: false
     usePipenv: true
     slim: true

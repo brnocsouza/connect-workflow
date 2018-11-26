@@ -4,20 +4,15 @@
 {
     "distutils": {
         "depends": [
-            "multidict/_multidict_iter.h",
-            "multidict/_multidict_views.h",
-            "multidict/_pair_list.h"
+            "multidict\\_multidict_iter.h",
+            "multidict\\_multidict_views.h",
+            "multidict\\_pair_list.h"
         ],
         "extra_compile_args": [
-            "-O2",
-            "-std=c99",
-            "-Wall",
-            "-Wsign-compare",
-            "-Wconversion",
-            "-fno-strict-aliasing"
+            "-O2"
         ],
         "include_dirs": [
-            "./multidict"
+            ".\\multidict"
         ],
         "name": "multidict._multidict",
         "sources": [
@@ -849,9 +844,9 @@ static const char *__pyx_filename;
 
 
 static const char *__pyx_f[] = {
-  "multidict/_multidict.pyx",
+  "multidict\\_multidict.pyx",
   "stringsource",
-  "type.pxd",
+  ".tox\\build-dists\\lib\\site-packages\\Cython\\Includes\\cpython\\type.pxd",
 };
 
 /*--- Type declarations ---*/
@@ -1576,7 +1571,7 @@ static const char __pyx_k_pyx_unpickle__Base[] = "__pyx_unpickle__Base";
 static const char __pyx_k_MutableMultiMapping[] = "MutableMultiMapping";
 static const char __pyx_k_can_t_pickle_objects[] = "can't pickle {} objects";
 static const char __pyx_k_multidict__multidict[] = "multidict._multidict";
-static const char __pyx_k_multidict__multidict_pyx[] = "multidict/_multidict.pyx";
+static const char __pyx_k_multidict__multidict_pyx[] = "multidict\\_multidict.pyx";
 static const char __pyx_k_ctor_requires_instance_not[] = "ctor requires {} instance, not {}";
 static const char __pyx_k_MultiDict_keys_should_be_either[] = "MultiDict keys should be either str or subclasses of str";
 static const char __pyx_k_takes_at_most_1_positional_argu[] = "{} takes at most 1 positional argument ({} given)";

@@ -106,7 +106,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/orchestrator/prod/1542916089717-2018-11-22T19:48:09.717Z/orchestrator.zip"
+                "S3Key": "serverless/orchestrator/prod/1543235023401-2018-11-26T12:23:43.401Z/orchestrator.zip"
               },
               "FunctionName": "orchestrator-prod-robot",
               "Handler": "handler.orchestrator",
@@ -125,14 +125,14 @@
               "IamRoleLambdaExecution"
             ]
           },
-          "RobotLambdaVersionDc3AHPK3P1JdujQnkdRncpGhFORIQNn98DfOuGMqIs": {
+          "RobotLambdaVersion6920smbr1WvO8kQPbT8e0YIexPCGnmR6qHesVloLKI": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "RobotLambdaFunction"
               },
-              "CodeSha256": "Qip7HyZvJPJW/sM6LwJKA/eVCCYkJbAiZXnDcdZihDc="
+              "CodeSha256": "xCCfR9dBEhSjXRScH9esTXeQowG7O8IA/y3WQy0Yd2w="
             }
           }
         },
@@ -145,7 +145,7 @@
           "RobotLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "RobotLambdaVersionDc3AHPK3P1JdujQnkdRncpGhFORIQNn98DfOuGMqIs"
+              "Ref": "RobotLambdaVersion6920smbr1WvO8kQPbT8e0YIexPCGnmR6qHesVloLKI"
             }
           }
         }
@@ -170,10 +170,10 @@
     },
     "custom": {
       "pythonRequirements": {
-        "useDownloadCache": true,
-        "useStaticCache": true,
+        "useDownloadCache": false,
+        "useStaticCache": false,
         "zip": true,
-        "dockerizePip": true,
+        "dockerizePip": false,
         "usePipenv": true,
         "slim": true
       }
@@ -194,10 +194,10 @@
         "vpc": {}
       }
     },
-    "artifact": "/home/bsouza/Projetos/Robot/orchestrator/.serverless/orchestrator.zip"
+    "artifact": "C:\\Users\\bruno.souza\\PycharmProjects\\Robot\\orchestrator\\.serverless\\orchestrator.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/orchestrator/prod/1542916089717-2018-11-22T19:48:09.717Z",
+    "artifactDirectoryName": "serverless/orchestrator/prod/1543235023401-2018-11-26T12:23:43.401Z",
     "artifact": "orchestrator.zip"
   }
 }

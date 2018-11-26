@@ -25,7 +25,7 @@ import warnings
 import uuid
 
 from botocore.compat import unquote, json, six, unquote_str, \
-    ensure_bytes, get_md5, MD5_AVAILABLE, OrderedDict
+    ensure_bytes, get_md5, MD5_AVAILABLE, OrderedDict, urlsplit, urlunsplit
 from botocore.docs.utils import AutoPopulatedParam
 from botocore.docs.utils import HideParamFromOperations
 from botocore.docs.utils import AppendParamDocumentation
@@ -37,6 +37,7 @@ from botocore.exceptions import AliasConflictParameterError
 from botocore.exceptions import UnsupportedTLSVersionWarning
 from botocore.utils import percent_encode, SAFE_CHARS
 from botocore.utils import switch_host_with_param
+from botocore.utils import hyphenize_service_id
 
 from botocore import retryhandler
 from botocore import utils
@@ -278,17 +279,18 @@ def register_retries_for_service(service_data, session,
         logger.debug("Not registering retry handlers, could not endpoint "
                      "prefix from model for service %s", service_name)
         return
+    service_id = service_data.get('metadata', {}).get('serviceId')
+    service_event_name = hyphenize_service_id(service_id)
     config = _load_retry_config(loader, endpoint_prefix)
     if not config:
         return
     logger.debug("Registering retry handlers for service: %s", service_name)
     handler = retryhandler.create_retry_handler(
         config, endpoint_prefix)
-    unique_id = 'retry-config-%s' % endpoint_prefix
-    session.register('needs-retry.%s' % endpoint_prefix,
+    unique_id = 'retry-config-%s' % service_event_name
+    session.register('needs-retry.%s' % service_event_name,
                      handler, unique_id=unique_id)
-    _register_for_operations(config, session,
-                             service_name=endpoint_prefix)
+    _register_for_operations(config, session, service_event_name)
 
 
 def _load_retry_config(loader, endpoint_prefix):
@@ -299,7 +301,7 @@ def _load_retry_config(loader, endpoint_prefix):
     return retry_config
 
 
-def _register_for_operations(config, session, service_name):
+def _register_for_operations(config, session, service_event_name):
     # There's certainly a tradeoff for registering the retry config
     # for the operations when the service is created.  In practice,
     # there aren't a whole lot of per operation retry configs so
@@ -308,8 +310,8 @@ def _register_for_operations(config, session, service_name):
         if key == '__default__':
             continue
         handler = retryhandler.create_retry_handler(config, key)
-        unique_id = 'retry-config-%s-%s' % (service_name, key)
-        session.register('needs-retry.%s.%s' % (service_name, key),
+        unique_id = 'retry-config-%s-%s' % (service_event_name, key)
+        session.register('needs-retry.%s.%s' % (service_event_name, key),
                          handler, unique_id=unique_id)
 
 
@@ -728,15 +730,35 @@ def decode_list_object(parsed, context, **kwargs):
     # Amazon S3 includes this element in the response, and returns encoded key
     # name values in the following response elements:
     # Delimiter, Marker, Prefix, NextMarker, Key.
+    _decode_list_object(
+        top_level_keys=['Delimiter', 'Marker', 'NextMarker'],
+        nested_keys=[('Contents', 'Key'), ('CommonPrefixes', 'Prefix')],
+        parsed=parsed,
+        context=context
+    )
+
+
+def decode_list_object_v2(parsed, context, **kwargs):
+    # From the documentation: If you specify encoding-type request parameter,
+    # Amazon S3 includes this element in the response, and returns encoded key
+    # name values in the following response elements:
+    # Delimiter, Prefix, ContinuationToken, Key, and StartAfter.
+    _decode_list_object(
+        top_level_keys=['Delimiter', 'Prefix', 'StartAfter'],
+        nested_keys=[('Contents', 'Key'), ('CommonPrefixes', 'Prefix')],
+        parsed=parsed,
+        context=context
+    )
+
+
+def _decode_list_object(top_level_keys, nested_keys, parsed, context):
     if parsed.get('EncodingType') == 'url' and \
                     context.get('encoding_type_auto_set'):
         # URL decode top-level keys in the response if present.
-        top_level_keys = ['Delimiter', 'Marker', 'NextMarker']
         for key in top_level_keys:
             if key in parsed:
                 parsed[key] = unquote_str(parsed[key])
         # URL decode nested keys from the response if present.
-        nested_keys = [('Contents', 'Key'), ('CommonPrefixes', 'Prefix')]
         for (top_key, child_key) in nested_keys:
             if top_key in parsed:
                 for member in parsed[top_key]:
@@ -844,6 +866,49 @@ class ClientMethodAlias(object):
     def __call__(self, client, **kwargs):
         return getattr(client, self._actual)
 
+
+def remove_subscribe_to_shard(class_attributes, **kwargs):
+    if 'subscribe_to_shard' in class_attributes:
+        # subscribe_to_shard requires HTTP 2 support
+        del class_attributes['subscribe_to_shard']
+
+
+class HeaderToHostHoister(object):
+    """Takes a header and moves it to the front of the hoststring.
+    """
+    def __init__(self, header_name):
+        self._header_name = header_name
+
+    def hoist(self, params, **kwargs):
+        """Hoist a header to the hostname.
+
+        Hoist a header to the beginning of the hostname with a suffix "." after
+        it. The original header should be removed from the header map. This
+        method is intended to be used as a target for the before-call event.
+        """
+        if self._header_name not in params['headers']:
+            return
+        header_value = params['headers'][self._header_name]
+        original_url = params['url']
+        new_url = self._prepend_to_host(original_url, header_value)
+        params['url'] = new_url
+
+    def _prepend_to_host(self, url, prefix):
+        url_components = urlsplit(url)
+        parts = url_components.netloc.split('.')
+        parts = [prefix] + parts
+        new_netloc = '.'.join(parts)
+        new_components = (
+            url_components.scheme,
+            new_netloc,
+            url_components.path,
+            url_components.query,
+            ''
+        )
+        new_url = urlunsplit(new_components)
+        return new_url
+
+
 # This is a list of (event_name, handler).
 # When a Session is created, everything in this list will be
 # automatically registered with that Session.
@@ -856,9 +921,9 @@ BUILTIN_HANDLERS = [
      convert_body_to_file_like_object, REGISTER_LAST),
     ('before-parameter-build.s3.PutObject',
      convert_body_to_file_like_object, REGISTER_LAST),
+    ('creating-client-class.kinesis', remove_subscribe_to_shard),
     ('creating-client-class', add_generate_presigned_url),
     ('creating-client-class.s3', add_generate_presigned_post),
-    ('creating-client-class.rds', add_generate_db_auth_token),
     ('creating-client-class.iot-data', check_openssl_supports_tls_version_1_2),
     ('after-call.iam', json_decode_policies),
 
@@ -871,6 +936,8 @@ BUILTIN_HANDLERS = [
     ('before-parameter-build.s3', validate_bucket_name),
 
     ('before-parameter-build.s3.ListObjects',
+     set_list_objects_encoding_type_url),
+    ('before-parameter-build.s3.ListObjectsV2',
      set_list_objects_encoding_type_url),
     ('before-call.s3.PutBucketTagging', calculate_md5),
     ('before-call.s3.PutBucketLifecycle', calculate_md5),
@@ -906,14 +973,6 @@ BUILTIN_HANDLERS = [
     ('before-call.glacier.UploadArchive', add_glacier_checksums),
     ('before-call.glacier.UploadMultipartPart', add_glacier_checksums),
     ('before-call.ec2.CopySnapshot', inject_presigned_url_ec2),
-    ('before-call.rds.CopyDBClusterSnapshot',
-     inject_presigned_url_rds),
-    ('before-call.rds.CreateDBCluster',
-     inject_presigned_url_rds),
-    ('before-call.rds.CopyDBSnapshot',
-     inject_presigned_url_rds),
-    ('before-call.rds.CreateDBInstanceReadReplica',
-     inject_presigned_url_rds),
     ('request-created.machinelearning.Predict', switch_host_machinelearning),
     ('needs-retry.s3.UploadPartCopy', check_for_200_error, REGISTER_FIRST),
     ('needs-retry.s3.CopyObject', check_for_200_error, REGISTER_FIRST),
@@ -943,6 +1002,7 @@ BUILTIN_HANDLERS = [
     ('before-parameter-build.route53', fix_route53_ids),
     ('before-parameter-build.glacier', inject_account_id),
     ('after-call.s3.ListObjects', decode_list_object),
+    ('after-call.s3.ListObjectsV2', decode_list_object_v2),
 
     # Cloudsearchdomain search operation will be sent by HTTP POST
     ('request-created.cloudsearchdomain.Search',
@@ -968,16 +1028,6 @@ BUILTIN_HANDLERS = [
     ('docs.*.autoscaling.CreateLaunchConfiguration.complete-section',
      document_base64_encoding('UserData')),
 
-    # RDS PresignedUrl documentation customizations
-    ('docs.*.rds.CopyDBClusterSnapshot.complete-section',
-     AutoPopulatedParam('PreSignedUrl').document_auto_populated_param),
-    ('docs.*.rds.CreateDBCluster.complete-section',
-     AutoPopulatedParam('PreSignedUrl').document_auto_populated_param),
-    ('docs.*.rds.CopyDBSnapshot.complete-section',
-     AutoPopulatedParam('PreSignedUrl').document_auto_populated_param),
-    ('docs.*.rds.CreateDBInstanceReadReplica.complete-section',
-     AutoPopulatedParam('PreSignedUrl').document_auto_populated_param),
-
     # EC2 CopySnapshot documentation customizations
     ('docs.*.ec2.CopySnapshot.complete-section',
      AutoPopulatedParam('PresignedUrl').document_auto_populated_param),
@@ -1001,6 +1051,51 @@ BUILTIN_HANDLERS = [
           'PutBucketLifecycle', 'PutBucketLogging', 'PutBucketNotification',
           'PutBucketPolicy', 'PutBucketReplication', 'PutBucketRequestPayment',
           'PutBucketTagging', 'PutBucketVersioning', 'PutBucketWebsite',
-          'PutObjectAcl']).hide_param)
+          'PutObjectAcl']).hide_param),
+
+    #############
+    # RDS
+    #############
+    ('creating-client-class.rds', add_generate_db_auth_token),
+
+    ('before-call.rds.CopyDBClusterSnapshot',
+     inject_presigned_url_rds),
+    ('before-call.rds.CreateDBCluster',
+     inject_presigned_url_rds),
+    ('before-call.rds.CopyDBSnapshot',
+     inject_presigned_url_rds),
+    ('before-call.rds.CreateDBInstanceReadReplica',
+     inject_presigned_url_rds),
+
+    # RDS PresignedUrl documentation customizations
+    ('docs.*.rds.CopyDBClusterSnapshot.complete-section',
+     AutoPopulatedParam('PreSignedUrl').document_auto_populated_param),
+    ('docs.*.rds.CreateDBCluster.complete-section',
+     AutoPopulatedParam('PreSignedUrl').document_auto_populated_param),
+    ('docs.*.rds.CopyDBSnapshot.complete-section',
+     AutoPopulatedParam('PreSignedUrl').document_auto_populated_param),
+    ('docs.*.rds.CreateDBInstanceReadReplica.complete-section',
+     AutoPopulatedParam('PreSignedUrl').document_auto_populated_param),
+
+    #############
+    # Neptune
+    #############
+    ('before-call.neptune.CopyDBClusterSnapshot',
+     inject_presigned_url_rds),
+    ('before-call.neptune.CreateDBCluster',
+     inject_presigned_url_rds),
+
+    # RDS PresignedUrl documentation customizations
+    ('docs.*.neptune.CopyDBClusterSnapshot.complete-section',
+     AutoPopulatedParam('PreSignedUrl').document_auto_populated_param),
+    ('docs.*.neptune.CreateDBCluster.complete-section',
+     AutoPopulatedParam('PreSignedUrl').document_auto_populated_param),
+
+    #############
+    # S3 Control
+    #############
+    ('before-call.s3-control.*',
+     HeaderToHostHoister('x-amz-account-id').hoist),
+
 ]
 _add_parameter_aliases(BUILTIN_HANDLERS)

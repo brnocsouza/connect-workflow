@@ -777,7 +777,7 @@ static const char *__pyx_filename;
 
 
 static const char *__pyx_f[] = {
-  "aiohttp/_frozenlist.pyx",
+  "aiohttp\\_frozenlist.pyx",
   "stringsource",
 };
 

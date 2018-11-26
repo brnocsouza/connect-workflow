@@ -90,9 +90,11 @@ class ClientCreator(object):
         py_name_to_operation_name = self._create_name_mapping(service_model)
         class_attributes['_PY_TO_OP_NAME'] = py_name_to_operation_name
         bases = [BaseClient]
-        self._event_emitter.emit('creating-client-class.%s' % service_name,
-                                 class_attributes=class_attributes,
-                                 base_classes=bases)
+        service_id = service_model.service_id.hyphenize()
+        self._event_emitter.emit(
+            'creating-client-class.%s' % service_id,
+            class_attributes=class_attributes,
+            base_classes=bases)
         class_name = get_service_module_name(service_model)
         cls = type(str(class_name), tuple(bases), class_attributes)
         return cls
@@ -105,6 +107,8 @@ class ClientCreator(object):
 
     def _register_retries(self, client):
         endpoint_prefix = client.meta.service_model.endpoint_prefix
+        service_id = client.meta.service_model.service_id
+        service_event_name = service_id.hyphenize()
 
         # First, we load the entire retry config for all services,
         # then pull out just the information we need.
@@ -122,9 +126,11 @@ class ClientCreator(object):
                      client.meta.service_model.service_name)
         handler = self._retry_handler_factory.create_retry_handler(
             retry_config, endpoint_prefix)
-        unique_id = 'retry-config-%s' % endpoint_prefix
-        client.meta.events.register('needs-retry.%s' % endpoint_prefix,
-                                    handler, unique_id=unique_id)
+        unique_id = 'retry-config-%s' % service_event_name
+        client.meta.events.register(
+            'needs-retry.%s' % service_event_name, handler,
+            unique_id=unique_id
+        )
 
     def _register_s3_events(self, client, endpoint_bridge, endpoint_url,
                             client_config, scoped_config):
@@ -341,6 +347,7 @@ class ClientEndpointBridge(object):
     utilize "us-east-1" by default if no region can be resolved."""
 
     DEFAULT_ENDPOINT = '{service}.{region}.amazonaws.com'
+    _DUALSTACK_ENABLED_SERVICES = ['s3', 's3-control']
 
     def __init__(self, endpoint_resolver, scoped_config=None,
                  client_config=None, default_endpoint=None,
@@ -394,7 +401,7 @@ class ClientEndpointBridge(object):
             signature_version=signature_version)
 
     def _is_s3_dualstack_mode(self, service_name):
-        if service_name != 's3':
+        if service_name not in self._DUALSTACK_ENABLED_SERVICES:
             return False
         # TODO: This normalization logic is duplicated from the
         # ClientArgsCreator class.  Consolidate everything to
@@ -508,8 +515,8 @@ class ClientEndpointBridge(object):
                 return 'v4'
             # Now just iterate over the signature versions in order until we
             # find the first one that is known to Botocore.
-            for known in AUTH_TYPE_MAPS:
-                if known in potential_versions:
+            for known in potential_versions:
+                if known in AUTH_TYPE_MAPS:
                     return known
         raise UnknownSignatureVersionError(
             signature_version=resolved.get('signatureVersions'))
@@ -543,7 +550,9 @@ class BaseClient(object):
         self._register_handlers()
 
     def __getattr__(self, item):
-        event_name = 'getattr.%s.%s' % (self._service_model.service_name, item)
+        event_name = 'getattr.%s.%s' % (
+            self._service_model.service_id.hyphenize(), item
+        )
         handler, event_response = self.meta.events.emit_until_response(
             event_name, client=self)
 
@@ -557,9 +566,11 @@ class BaseClient(object):
 
     def _register_handlers(self):
         # Register the handler required to sign requests.
-        self.meta.events.register('request-created.%s' %
-                                  self.meta.service_model.endpoint_prefix,
-                                  self._request_signer.handler)
+        service_id = self.meta.service_model.service_id.hyphenize()
+        self.meta.events.register(
+            'request-created.%s' % service_id,
+            self._request_signer.handler
+        )
 
     @property
     def _service_model(self):
@@ -585,9 +596,10 @@ class BaseClient(object):
         request_dict = self._convert_to_request_dict(
             api_params, operation_model, context=request_context)
 
+        service_id = self._service_model.service_id.hyphenize()
         handler, event_response = self.meta.events.emit_until_response(
-            'before-call.{endpoint_prefix}.{operation_name}'.format(
-                endpoint_prefix=self._service_model.endpoint_prefix,
+            'before-call.{service_id}.{operation_name}'.format(
+                service_id=service_id,
                 operation_name=operation_name),
             model=operation_model, params=request_dict,
             request_signer=self._request_signer, context=request_context)
@@ -599,8 +611,8 @@ class BaseClient(object):
                 operation_model, request_dict)
 
         self.meta.events.emit(
-            'after-call.{endpoint_prefix}.{operation_name}'.format(
-                endpoint_prefix=self._service_model.endpoint_prefix,
+            'after-call.{service_id}.{operation_name}'.format(
+                service_id=service_id,
                 operation_name=operation_name),
             http_response=http, parsed=parsed_response,
             model=operation_model, context=request_context
@@ -632,18 +644,19 @@ class BaseClient(object):
         # Emit an event that allows users to modify the parameters at the
         # beginning of the method. It allows handlers to modify existing
         # parameters or return a new set of parameters to use.
+        service_id = self._service_model.service_id.hyphenize()
         responses = self.meta.events.emit(
-            'provide-client-params.{endpoint_prefix}.{operation_name}'.format(
-                endpoint_prefix=self._service_model.endpoint_prefix,
+            'provide-client-params.{service_id}.{operation_name}'.format(
+                service_id=service_id,
                 operation_name=operation_name),
             params=api_params, model=operation_model, context=context)
         api_params = first_non_none_response(responses, default=api_params)
 
         event_name = (
-            'before-parameter-build.{endpoint_prefix}.{operation_name}')
+            'before-parameter-build.{service_id}.{operation_name}')
         self.meta.events.emit(
             event_name.format(
-                endpoint_prefix=self._service_model.endpoint_prefix,
+                service_id=service_id,
                 operation_name=operation_name),
             params=api_params, model=operation_model, context=context)
         return api_params

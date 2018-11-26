@@ -11,11 +11,15 @@
       <user-name>robot</user-name>
       <introspection-schemas>*:@</introspection-schemas>
     </data-source>
-    <data-source name="@chatbot-ip.cxcgjwehdjin.us-east-1.rds.amazonaws.com" uuid="89921298-73c4-4377-a041-9f93c602e9df">
-      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" family="MYSQL" exact-version="0.0" />
+    <data-source name="chatbot@chatbot-ip.cxcgjwehdjin.us-east-1.rds.amazonaws.com" uuid="89921298-73c4-4377-a041-9f93c602e9df">
+      <database-info product="MySQL" version="8.0.11" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.46 ( Revision: 9cc87a48e75c2d2e87c1a293b2862ce651cb256e )" family="MYSQL" exact-version="8.0.11">
+        <extra-name-characters>#@</extra-name-characters>
+        <identifier-quote-string>`</identifier-quote-string>
+      </database-info>
+      <case-sensitivity plain-identifiers="exact" quoted-identifiers="exact" />
       <secret-storage>master_key</secret-storage>
-      <first-sync>true</first-sync>
       <user-name>lex_root</user-name>
+      <introspection-schemas>*:@,chatbot</introspection-schemas>
     </data-source>
   </component>
 </project>
