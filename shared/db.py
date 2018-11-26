@@ -58,7 +58,7 @@ async def get_all_to_retry():
                     )"""
 
     await cursor.execute(sql)
-    return chunks([item['id'] for item in await cursor.fetchall()], 100)
+    return [item['id'] for item in await cursor.fetchall()]
 
 
 async def get_data(id_record: int):

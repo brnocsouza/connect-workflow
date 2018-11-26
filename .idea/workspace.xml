@@ -2,13 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c1e66095-5f5b-4eed-90cd-50612d31980a" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/execute-sql/handler.py" beforeDir="false" afterPath="$PROJECT_DIR$/execute-sql/handler.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/execute/Pipfile" beforeDir="false" afterPath="$PROJECT_DIR$/execute/Pipfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/execute/handler.py" beforeDir="false" afterPath="$PROJECT_DIR$/execute/handler.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/orchestrator/handler.py" beforeDir="false" afterPath="$PROJECT_DIR$/orchestrator/handler.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/shared/db.py" beforeDir="false" afterPath="$PROJECT_DIR$/shared/db.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/shared/helpers.py" beforeDir="false" afterPath="$PROJECT_DIR$/shared/helpers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/shared/models.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -94,17 +91,17 @@
           <entry key="groovy" value="2" />
           <entry key="js" value="1" />
           <entry key="json" value="3" />
-          <entry key="pdv" value="14" />
-          <entry key="py" value="91" />
+          <entry key="pdv" value="15" />
+          <entry key="py" value="102" />
           <entry key="sql" value="10" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="Database Element" value="14" />
+          <entry key="Database Element" value="15" />
           <entry key="JSON" value="3" />
-          <entry key="Python" value="90" />
-          <entry key="Scratch" value="14" />
+          <entry key="Python" value="100" />
+          <entry key="Scratch" value="15" />
           <entry key="TOML file" value="1" />
           <entry key="UML" value="1" />
         </counts>
@@ -113,7 +110,7 @@
         <counts>
           <entry key="Pipfile" value="3" />
           <entry key="cell" value="30" />
-          <entry key="py" value="1225" />
+          <entry key="py" value="1322" />
           <entry key="sql" value="84" />
           <entry key="txt" value="7" />
         </counts>
@@ -121,9 +118,9 @@
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="PLAIN_TEXT" value="7" />
-          <entry key="Python" value="1218" />
+          <entry key="Python" value="1303" />
           <entry key="SQL" value="69" />
-          <entry key="Scratch" value="52" />
+          <entry key="Scratch" value="64" />
           <entry key="TOML file" value="3" />
         </counts>
       </usages-collector>
@@ -147,20 +144,44 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/execute/Pipfile">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="182">
-              <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
+            <state relative-caret-position="208">
+              <caret line="8" column="51" lean-forward="true" selection-start-line="8" selection-start-column="51" selection-end-line="8" selection-end-column="51" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/shared/helpers.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="310">
+              <caret line="105" column="40" lean-forward="true" selection-end-line="113" />
+              <folding>
+                <element signature="e#0#9#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/.PyCharm2018.2/system/python_stubs/-1191202023/builtins.py">
+        <entry file="file://$PROJECT_DIR$/orchestrator/handler.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="499" column="4" selection-start-line="499" selection-start-column="4" selection-end-line="499" selection-end-column="4" />
+            <state relative-caret-position="78">
+              <caret line="3" column="36" selection-start-line="3" selection-start-column="36" selection-end-line="3" selection-end-column="36" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/shared/db.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="155">
+              <caret line="31" column="32" lean-forward="true" selection-start-line="31" selection-start-column="32" selection-end-line="31" selection-end-column="32" />
+              <folding>
+                <element signature="e#0#9#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -169,7 +190,7 @@
         <entry file="file://$PROJECT_DIR$/shared/models.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="144">
-              <caret line="125" column="8" lean-forward="true" selection-start-line="125" selection-start-column="8" selection-end-line="125" selection-end-column="15" />
+              <caret line="125" column="8" selection-start-line="125" selection-start-column="8" selection-end-line="125" selection-end-column="15" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
@@ -189,6 +210,7 @@
       <find>.hyphenize()</find>
       <find>service_id = service_model.service_id.hyphenize()</find>
       <find>_create_client_class</find>
+      <find>try:</find>
       <find>hyphenize</find>
     </findStrings>
     <replaceStrings>
@@ -204,18 +226,19 @@
       <list>
         <option value="$APPLICATION_CONFIG_DIR$/consoles/db/84ec6cc0-0d03-4cad-8042-ad693235790e/console.sql" />
         <option value="$APPLICATION_CONFIG_DIR$/consoles/db/89921298-73c4-4377-a041-9f93c602e9df/console.sql" />
-        <option value="$PROJECT_DIR$/orchestrator/handler.py" />
         <option value="$PROJECT_DIR$/deploy/on-error/on-error/handler.py" />
         <option value="$PROJECT_DIR$/onerror/handler.py" />
         <option value="$PROJECT_DIR$/deploy/orchestrator/orchestrator/handler.py" />
         <option value="$PROJECT_DIR$/deploy/orchestrator/orchestrator/shared/helpers.py" />
         <option value="$APPLICATION_CONFIG_DIR$/scratches/scratch.py" />
-        <option value="$PROJECT_DIR$/shared/db.py" />
-        <option value="$PROJECT_DIR$/shared/helpers.py" />
-        <option value="$PROJECT_DIR$/execute-sql/handler.py" />
         <option value="$PROJECT_DIR$/shared/models.py" />
         <option value="$PROJECT_DIR$/execute/handler.py" />
         <option value="$PROJECT_DIR$/execute/Pipfile" />
+        <option value="$PROJECT_DIR$/execute-sql/handler.py" />
+        <option value="$PROJECT_DIR$/shared/db.py" />
+        <option value="$APPLICATION_CONFIG_DIR$/scratches/scratch_1.py" />
+        <option value="$PROJECT_DIR$/orchestrator/handler.py" />
+        <option value="$PROJECT_DIR$/shared/helpers.py" />
       </list>
     </option>
   </component>
@@ -261,12 +284,12 @@
             <path>
               <item name="Robot" type="b2602c69:ProjectViewProjectNode" />
               <item name="Robot" type="462c0819:PsiDirectoryNode" />
-              <item name="execute" type="462c0819:PsiDirectoryNode" />
+              <item name="execute-sql" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Robot" type="b2602c69:ProjectViewProjectNode" />
               <item name="Robot" type="462c0819:PsiDirectoryNode" />
-              <item name="execute-sql" type="462c0819:PsiDirectoryNode" />
+              <item name="orchestrator" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Robot" type="b2602c69:ProjectViewProjectNode" />
@@ -611,7 +634,7 @@
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.42062193" />
-      <window_info anchor="bottom" id="Debug" order="3" visible="true" weight="0.39934534" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.39934534" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -679,7 +702,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/shared/helpers.py</url>
-          <line>94</line>
+          <line>97</line>
           <option name="timeStamp" value="17" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -804,13 +827,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="104">
           <caret line="2" column="134" lean-forward="true" selection-start-line="2" selection-start-column="134" selection-end-line="2" selection-end-column="134" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/shared/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="26">
-          <caret line="1" column="8" selection-start-line="1" selection-start-column="8" selection-end-line="1" selection-end-column="8" />
         </state>
       </provider>
     </entry>
@@ -950,20 +966,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/orchestrator/handler.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="234">
-          <caret line="9" column="39" selection-start-line="9" selection-start-column="39" selection-end-line="9" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://89921298-73c4-4377-a041-9f93c602e9df/schema/chatbot/table/pdv">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/scratch.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="26">
@@ -971,40 +973,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/shared/db.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="142" column="36" lean-forward="true" selection-start-line="142" selection-start-column="36" selection-end-line="142" selection-end-column="36" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/shared/helpers.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="152">
-          <caret line="77" selection-start-line="77" selection-end-line="77" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/_pydev_imps/_pydev_execfile.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="154">
           <caret line="17" column="32" selection-start-line="17" selection-start-column="32" selection-end-line="17" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/execute-sql/handler.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="24">
-          <caret line="26" column="57" lean-forward="true" selection-start-line="26" selection-start-column="57" selection-end-line="26" selection-end-column="57" />
-          <folding>
-            <element signature="e#0#14#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1022,16 +994,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/shared/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="125" column="8" lean-forward="true" selection-start-line="125" selection-start-column="8" selection-end-line="125" selection-end-column="15" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/execute/handler.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="104">
@@ -1041,8 +1003,99 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/execute/Pipfile">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="182">
-          <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
+        <state relative-caret-position="208">
+          <caret line="8" column="51" lean-forward="true" selection-start-line="8" selection-start-column="51" selection-end-line="8" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../robot2/aioboto3/aiobotocore/client.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="200">
+          <caret line="48" column="8" selection-start-line="48" selection-start-column="46" selection-end-line="48" selection-end-column="55" />
+          <folding>
+            <element signature="e#0#14#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/shared/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="125" column="8" selection-start-line="125" selection-start-column="8" selection-end-line="125" selection-end-column="15" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://89921298-73c4-4377-a041-9f93c602e9df/schema/chatbot/table/pdv">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../deploy/on-success/requirements/aioboto3/aiobotocore/client.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="200">
+          <caret line="79" column="42" lean-forward="true" selection-start-line="79" selection-start-column="42" selection-end-line="79" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/execute-sql/handler.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="130">
+          <caret line="5" column="66" lean-forward="true" selection-start-line="5" selection-start-column="66" selection-end-line="5" selection-end-column="66" />
+          <folding>
+            <element signature="e#0#14#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/scratch_1.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="338">
+          <caret line="13" column="28" selection-start-line="13" selection-start-column="28" selection-end-line="13" selection-end-column="28" />
+          <folding>
+            <element signature="e#65#79#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/orchestrator/handler.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="78">
+          <caret line="3" column="36" selection-start-line="3" selection-start-column="36" selection-end-line="3" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/shared/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="78">
+          <caret line="3" column="45" lean-forward="true" selection-start-line="3" selection-start-column="45" selection-end-line="3" selection-end-column="45" />
+          <folding>
+            <element signature="e#0#21#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/shared/db.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="155">
+          <caret line="31" column="32" lean-forward="true" selection-start-line="31" selection-start-column="32" selection-end-line="31" selection-end-column="32" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/shared/helpers.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="310">
+          <caret line="105" column="40" lean-forward="true" selection-end-line="113" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

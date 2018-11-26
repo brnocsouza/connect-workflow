@@ -2,7 +2,7 @@ import asyncio
 import json
 import os
 
-from shared import Data, get_data
+from shared import Data, get_data, get_all_to_retry
 
 
 def execute_sql(event, ctx):
@@ -16,6 +16,9 @@ def execute_sql(event, ctx):
         all_stores = [Data(item, 'pdv') for item in event['save_list']]
         tasks_to_save = [item.save() for item in all_stores if item is not None]
         loop.run_until_complete(asyncio.gather(*tasks_to_save))
+    elif 'get_all_retry' in event:
+        loop = asyncio.get_event_loop()
+        all_stores = loop.run_until_complete(get_all_to_retry())
 
     return json.loads(json.dumps(all_stores, default=str))
 

@@ -8,7 +8,7 @@ from botocore.exceptions import ClientError
 
 import shared
 
-PROFILE = 'ecs'
+PROFILE = None
 
 
 def get_environment():
@@ -105,3 +105,9 @@ def call_lambda_sync(function_name: str, payload: str):
     except ClientError as ex:
         print(ex)
         return None
+
+
+def chunks(l, n):
+    """Yield successive n-sized chunks from l."""
+    for i in range(0, len(l), n):
+        yield l[i:i + n]
