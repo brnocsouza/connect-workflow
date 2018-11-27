@@ -67,6 +67,8 @@ async def start_outbound_voice_contact(
 
             attr.contact_id = response['ContactId']
 
+            print(attr)
+
         return attr
     except ClientError as ex:
         print(ex)
