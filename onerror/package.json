@@ -4,8 +4,8 @@
   "description": "Lambda save status on DB and schedule new call when error",
   "version": "1.0.0",
   "devDependencies": {
-    "serverless": "^1.33.2",
-    "serverless-python-requirements": "^4.2.5"
+    "serverless": "^1.49.0",
+    "serverless-python-requirements": "^5.0.0"
   },
   "scripts": {
     "build": "npx serverless package --package ../deploy/on-error",

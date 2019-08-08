@@ -4,13 +4,13 @@
   "description": "Lambda which orchestrate awa connect start outbound call",
   "version": "1.0.0",
   "devDependencies": {
-    "serverless": "^1.33.2"
+    "serverless": "^1.49.0"
   },
   "scripts": {
     "build": "npx serverless package --package ../deploy/orchestrator",
     "deploy": "npx sls deploy"
   },
   "dependencies": {
-    "serverless-python-requirements": "^4.2.5"
+    "serverless-python-requirements": "^5.0.0"
   }
 }
